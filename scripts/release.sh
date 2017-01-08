@@ -31,7 +31,9 @@ echo "DONE"
 
 echo -n "Uploading binaries ... "
 
-github-release release -u prologic -p -r golinks -t ${TAG} -n ${NAME} -d ${DESC}
+github-release release \
+    -u prologic -p -r golinks \
+    -t ${TAG} -n "${NAME}" -d "${DESC}"
 
 for file in bin/*; do
     name="$(echo $file | sed -e 's|bin/||g')"
