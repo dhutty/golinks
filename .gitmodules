@@ -4,3 +4,6 @@
 [submodule "vendor/github.com/namsral/flag"]
 	path = vendor/github.com/namsral/flag
 	url = https://github.com/namsral/flag
+[submodule "vendor/github.com/stretchr/testify"]
+	path = vendor/github.com/stretchr/testify
+	url = https://github.com/stretchr/testify
