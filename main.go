@@ -34,60 +34,66 @@ func render(w http.ResponseWriter, tmpl string, data interface{}) {
 	}
 }
 
-func processor(w http.ResponseWriter, r *http.Request) {
-	var (
-		cmd  string
-		args []string
-	)
+// QueryHandler ...
+func QueryHandler() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var (
+			cmd  string
+			args []string
+		)
 
-	q := r.URL.Query().Get("q")
-	tokens := strings.Split(q, " ")
-	if len(tokens) > 0 {
-		cmd, args = tokens[0], tokens[1:]
-	}
-
-	if cmd == "" {
-		render(w, "index", nil)
-	} else {
-		if command := LookupCommand(cmd); command != nil {
-			err := command.Exec(w, args)
-			if err != nil {
-				http.Error(
-					w,
-					fmt.Sprintf(
-						"Error processing command %s: %s",
-						command.Name(), err,
-					),
-					http.StatusInternalServerError,
-				)
-			}
-		} else if alias, ok := LookupAlias(cmd); ok {
-			q := strings.Join(args, " ")
-			err := alias.Exec(w, r, q)
-			if err != nil {
-				http.Error(
-					w,
-					fmt.Sprintf(
-						"Error processing alias %s: %s",
-						alias.Name(), err,
-					),
-					http.StatusInternalServerError,
-				)
-			}
-		} else {
-			http.Error(
-				w,
-				fmt.Sprintf("Invalid Command: %v", cmd),
-				http.StatusBadRequest,
-			)
+		q := r.URL.Query().Get("q")
+		tokens := strings.Split(q, " ")
+		if len(tokens) > 0 {
+			cmd, args = tokens[0], tokens[1:]
 		}
-	}
+
+		if cmd == "" {
+			render(w, "index", nil)
+		} else {
+			if command := LookupCommand(cmd); command != nil {
+				err := command.Exec(w, args)
+				if err != nil {
+					http.Error(
+						w,
+						fmt.Sprintf(
+							"Error processing command %s: %s",
+							command.Name(), err,
+						),
+						http.StatusInternalServerError,
+					)
+				}
+			} else if alias, ok := LookupAlias(cmd); ok {
+				q := strings.Join(args, " ")
+				err := alias.Exec(w, r, q)
+				if err != nil {
+					http.Error(
+						w,
+						fmt.Sprintf(
+							"Error processing alias %s: %s",
+							alias.Name(), err,
+						),
+						http.StatusInternalServerError,
+					)
+				}
+			} else {
+				http.Error(
+					w,
+					fmt.Sprintf("Invalid Command: %v", cmd),
+					http.StatusBadRequest,
+				)
+			}
+		}
+	})
 }
 
-func opensearch(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/xml")
-	// TODO: Abstract the Config and Handlers better
-	w.Write([]byte(fmt.Sprintf(openSearchTemplate, cfg.Title, cfg.FQDN)))
+// OpenSearchHandler ...
+func OpenSearchHandler() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/xml")
+		// TODO: Abstract the Config and Handlers better
+		w.Write([]byte(fmt.Sprintf(openSearchTemplate, cfg.Title, cfg.FQDN)))
+	})
 }
 
 func main() {
@@ -119,7 +125,7 @@ func main() {
 
 	EnsureDefaultAliases()
 
-	http.HandleFunc("/", processor)
-	http.HandleFunc("/opensearch.xml", opensearch)
+	http.Handle("/", QueryHandler())
+	http.Handle("/opensearch.xml", OpenSearchHandler())
 	log.Fatal(http.ListenAndServe(bind, nil))
 }
