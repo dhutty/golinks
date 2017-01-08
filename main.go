@@ -2,19 +2,21 @@ package main
 
 import (
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 	"strings"
 
+	"github.com/GeertJohan/go.rice"
 	"github.com/boltdb/bolt"
 	"github.com/namsral/flag"
+
+	"go.iondynamics.net/templice"
 )
 
 var (
 	db        *bolt.DB
 	cfg       Config
-	templates = template.Must(template.ParseGlob("templates/*.html"))
+	templates = templice.New(rice.MustFindBox("templates"))
 )
 
 const openSearchTemplate string = `<?xml version="1.0" encoding="UTF-8"?>
@@ -122,6 +124,8 @@ func main() {
 		log.Fatal(err)
 	}
 	defer db.Close()
+
+	templates.Load()
 
 	EnsureDefaultAliases()
 

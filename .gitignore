@@ -1,2 +1,4 @@
 *.db
-search
+golinks
+golinks-*
+rice-box.go
