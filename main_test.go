@@ -23,6 +23,17 @@ func TestIndex(t *testing.T) {
 	assert.Contains(w.Body.String(), `<input type="text" name="q">`)
 }
 
+func TestOpenSearch(t *testing.T) {
+	assert := assert.New(t)
+
+	r, _ := http.NewRequest("GET", "/opensearch.xml", nil)
+	w := httptest.NewRecorder()
+
+	OpenSearchHandler().ServeHTTP(w, r)
+	assert.Equal(w.Code, http.StatusOK)
+	assert.Contains(w.Body.String(), "<OpenSearchDescription")
+}
+
 func TestCommand(t *testing.T) {
 	assert := assert.New(t)
 
