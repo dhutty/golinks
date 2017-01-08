@@ -9,7 +9,8 @@ var DefaultAliases map[string]string
 
 func init() {
 	DefaultAliases = map[string]string{
-		"g":  "https://www.google.com/search?q=%s&btnI",
+		"g":  "https://www.google.com/search?q=%s&btnK",
+		"gl": "https://www.google.com/search?q=%s&btnI",
 		"gh": "https://github.com/search?q=%s&ref=opensearch",
 	}
 }
