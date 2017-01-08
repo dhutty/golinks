@@ -8,6 +8,7 @@ import (
 	"github.com/boltdb/bolt"
 )
 
+// Alias ...
 type Alias struct {
 	name string
 	url  string
@@ -18,6 +19,11 @@ func (a Alias) Name() string {
 	return a.name
 }
 
+// URL ...
+func (a Alias) URL() string {
+	return a.url
+}
+
 // Exec ...
 func (a Alias) Exec(w http.ResponseWriter, r *http.Request, q string) error {
 	url := fmt.Sprintf(a.url, q)
@@ -25,6 +31,7 @@ func (a Alias) Exec(w http.ResponseWriter, r *http.Request, q string) error {
 	return nil
 }
 
+// LookupAlias ...
 func LookupAlias(name string) (alias Alias, ok bool) {
 	err := db.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte("aliases"))
