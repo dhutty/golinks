@@ -18,6 +18,8 @@ func TestIndex(t *testing.T) {
 	r, _ := http.NewRequest("GET", "", nil)
 	w := httptest.NewRecorder()
 
+	templates.Load()
+
 	QueryHandler().ServeHTTP(w, r)
 	assert.Equal(w.Code, http.StatusOK)
 	assert.Contains(w.Body.String(), `<input type="text" name="q">`)
