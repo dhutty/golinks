@@ -8,6 +8,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/boltdb/bolt"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -39,4 +40,20 @@ func TestCommand(t *testing.T) {
 	n, err := strconv.ParseInt(tokens[1], 10, 64)
 	assert.Nil(err)
 	assert.WithinDuration(time.Now(), time.Unix(n, 0), 1*time.Second)
+}
+
+func TestInvalidCommand(t *testing.T) {
+	assert := assert.New(t)
+
+	db, _ = bolt.Open("test.db", 0600, nil)
+	defer db.Close()
+
+	r, _ := http.NewRequest("GET", "/?q=asdf", nil)
+	w := httptest.NewRecorder()
+
+	QueryHandler().ServeHTTP(w, r)
+	assert.Equal(w.Code, http.StatusBadRequest)
+
+	body := w.Body.String()
+	assert.Equal(body, "Invalid Command: asdf\n")
 }
