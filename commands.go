@@ -27,10 +27,6 @@ func init() {
 	RegisterCommand("date", Date{})
 	RegisterCommand("time", Time{})
 	RegisterCommand("add", Add{})
-	//RegisterCommand("py", Py{})
-	//RegisterCommand("py3", Py3{})
-	//RegisterCommand("g", Google{})
-	//RegisterCommand("gh", Github{})
 }
 
 // RegisterCommand ...
