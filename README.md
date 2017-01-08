@@ -3,7 +3,7 @@
 [![GoDoc](https://godoc.org/github.com/prologic/golinks?status.svg)](https://godoc.org/github.com/prologic/golinks)
 [![Wiki](https://img.shields.io/badge/docs-wiki-blue.svg)](https://github.com/prologic/golinks/wiki)
 [![Go Report Card](https://goreportcard.com/badge/github.com/prologic/golinks)](https://goreportcard.com/report/github.com/prologic/golinks)
-[![Coverage](https://coveralls.io/repos/prologic/golinks/badge.png)](https://coveralls.io/r/prologic/golinks)
+[![Coverage](https://coveralls.io/repos/prologic/golinks/badge.svg)](https://coveralls.io/r/prologic/golinks)
 
 golinks is a smart bookmarks web app desiged to make accessing internal and
 external resources easier as well as provide ways to build convenient tools.
