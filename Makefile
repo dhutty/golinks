@@ -3,10 +3,11 @@
 all: dev
 
 dev: build
-	./search -bind 0.0.0.0:8000
+	./golinks -bind 127.0.0.1:8000
 
 build: clean
-	go build -o ./search .
+	go get ./...
+	go build -o ./golinks .
 
 clean:
-	rm -rf search
+	rm -rf golinks
