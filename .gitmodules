@@ -7,3 +7,15 @@
 [submodule "vendor/github.com/stretchr/testify"]
 	path = vendor/github.com/stretchr/testify
 	url = https://github.com/stretchr/testify
+[submodule "vendor/github.com/GeertJohan/go.rice"]
+	path = vendor/github.com/GeertJohan/go.rice
+	url = https://github.com/GeertJohan/go.rice
+[submodule "vendor/github.com/daaku/go.zipexe"]
+	path = vendor/github.com/daaku/go.zipexe
+	url = https://github.com/daaku/go.zipexe
+[submodule "vendor/github.com/kardianos/osext"]
+	path = vendor/github.com/kardianos/osext
+	url = https://github.com/kardianos/osext
+[submodule "vendor/go.iondynamics.net/templice"]
+	path = vendor/go.iondynamics.net/templice
+	url = https://github.com/ionDynamics/templice
