@@ -70,3 +70,26 @@ func TestInvalidCommand(t *testing.T) {
 	body := w.Body.String()
 	assert.Equal(body, "Invalid Command: asdf\n")
 }
+
+func TestCommandBookmark(t *testing.T) {
+	assert := assert.New(t)
+
+	db, _ = bolt.Open("test.db", 0600, nil)
+	defer db.Close()
+
+	EnsureDefaultBookmarks()
+
+	r, _ := http.NewRequest("GET", "/?q=g%20foo%20bar", nil)
+	w := httptest.NewRecorder()
+
+	QueryHandler().ServeHTTP(w, r)
+	assert.Condition(func() bool {
+		return w.Code >= http.StatusMultipleChoices &&
+			w.Code <= http.StatusTemporaryRedirect
+	})
+
+	assert.Equal(
+		w.Header().Get("Location"),
+		"https://www.google.com/search?q=foo bar&btnK",
+	)
+}
