@@ -83,12 +83,39 @@ func (p List) Desc() string {
 
 // Exec ...
 func (p List) Exec(w http.ResponseWriter, args []string) error {
-	keys := make([]string, 0, len(commands))
-	for k := range commands {
-		keys = append(keys, k)
+	var bs, cs []string
+
+	err := db.Update(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte("bookmarks"))
+		if b == nil {
+			return nil
+		}
+
+		err := b.ForEach(func(k, v []byte) error {
+			bs = append(bs, string(k))
+			return nil
+		})
+
+		return err
+	})
+	if err != nil {
+		log.Printf("error reading list of bookmarks: %s", err)
 	}
 
-	w.Write([]byte(fmt.Sprintf("Commands:\n\n%s", strings.Join(keys, "\n"))))
+	for k := range commands {
+		cs = append(cs, k)
+	}
+
+	w.Write(
+		[]byte(
+			fmt.Sprintf(
+				"Bookmarks:\n\n%s\n\nCommands:\n\n%s",
+				strings.Join(bs, "\n"),
+				strings.Join(cs, "\n"),
+			),
+		),
+	)
+
 	return nil
 }
 

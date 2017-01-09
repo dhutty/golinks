@@ -7,6 +7,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/boltdb/bolt"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -64,6 +65,11 @@ func TestPingCommand(t *testing.T) {
 func TestListCommand(t *testing.T) {
 	assert := assert.New(t)
 
+	db, _ = bolt.Open("test.db", 0600, nil)
+	defer db.Close()
+
+	EnsureDefaultBookmarks()
+
 	cmd := List{}
 	assert.Equal(cmd.Name(), "list")
 	assert.Contains(cmd.Desc(), "list")
@@ -78,4 +84,7 @@ func TestListCommand(t *testing.T) {
 	assert.Contains(cmds, "ping")
 	assert.Contains(cmds, "list")
 	assert.Contains(cmds, "help")
+	assert.Contains(cmds, "g")
+	assert.Contains(cmds, "yt")
+	assert.Contains(cmds, "go")
 }
