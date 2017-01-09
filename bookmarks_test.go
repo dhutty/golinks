@@ -26,7 +26,7 @@ func TestZeroBookmark(t *testing.T) {
 	})
 }
 
-func TestBookmark(t *testing.T) {
+func TestBookmarkWithQuery(t *testing.T) {
 	assert := assert.New(t)
 
 	bookmark := Bookmark{
@@ -52,5 +52,30 @@ func TestBookmark(t *testing.T) {
 			"https://www.google.com/search?q=%s&btnK",
 			q,
 		),
+	)
+}
+
+func TestBookmarkWithoutQuery(t *testing.T) {
+	assert := assert.New(t)
+
+	bookmark := Bookmark{
+		name: "g",
+		url:  "https://www.google.com/",
+	}
+	assert.Equal(bookmark.Name(), "g")
+	assert.Equal(bookmark.URL(), "https://www.google.com/")
+
+	r, _ := http.NewRequest("GET", "", nil)
+	w := httptest.NewRecorder()
+
+	bookmark.Exec(w, r, "")
+	assert.Condition(func() bool {
+		return w.Code >= http.StatusMultipleChoices &&
+			w.Code <= http.StatusTemporaryRedirect
+	})
+
+	assert.Equal(
+		w.Header().Get("Location"),
+		"https://www.google.com/",
 	)
 }
