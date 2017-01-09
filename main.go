@@ -117,7 +117,10 @@ func main() {
 
 	templates.Load()
 
-	EnsureDefaultBookmarks()
+	err = EnsureDefaultBookmarks()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	http.Handle("/", QueryHandler())
 	http.Handle("/opensearch.xml", OpenSearchHandler())

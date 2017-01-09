@@ -69,7 +69,8 @@ func TestListCommand(t *testing.T) {
 	db, _ = bolt.Open("test.db", 0600, nil)
 	defer db.Close()
 
-	EnsureDefaultBookmarks()
+	err := EnsureDefaultBookmarks()
+	assert.Nil(err)
 
 	cmd := List{}
 	assert.Equal(cmd.Name(), "list")
@@ -77,7 +78,7 @@ func TestListCommand(t *testing.T) {
 
 	w := httptest.NewRecorder()
 	args := []string{}
-	err := cmd.Exec(w, args)
+	err = cmd.Exec(w, args)
 	assert.Nil(err)
 
 	body := w.Body.String()

@@ -138,7 +138,8 @@ func TestCommandBookmark(t *testing.T) {
 	db, _ = bolt.Open("test.db", 0600, nil)
 	defer db.Close()
 
-	EnsureDefaultBookmarks()
+	err := EnsureDefaultBookmarks()
+	assert.Nil(err)
 
 	r, _ := http.NewRequest("GET", "/?q=g%20foo%20bar", nil)
 	w := httptest.NewRecorder()
