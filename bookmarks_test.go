@@ -19,8 +19,7 @@ func TestZeroBookmark(t *testing.T) {
 	r, _ := http.NewRequest("GET", "", nil)
 	w := httptest.NewRecorder()
 
-	err := bookmark.Exec(w, r, "")
-	assert.Nil(err)
+	bookmark.Exec(w, r, "")
 	assert.Condition(func() bool {
 		return w.Code >= http.StatusMultipleChoices &&
 			w.Code <= http.StatusTemporaryRedirect
@@ -41,8 +40,7 @@ func TestBookmark(t *testing.T) {
 	w := httptest.NewRecorder()
 
 	q := "foo bar"
-	err := bookmark.Exec(w, r, q)
-	assert.Nil(err)
+	bookmark.Exec(w, r, q)
 	assert.Condition(func() bool {
 		return w.Code >= http.StatusMultipleChoices &&
 			w.Code <= http.StatusTemporaryRedirect

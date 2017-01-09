@@ -25,10 +25,9 @@ func (b Bookmark) URL() string {
 }
 
 // Exec ...
-func (b Bookmark) Exec(w http.ResponseWriter, r *http.Request, q string) error {
+func (b Bookmark) Exec(w http.ResponseWriter, r *http.Request, q string) {
 	url := fmt.Sprintf(b.url, q)
 	http.Redirect(w, r, url, http.StatusFound)
-	return nil
 }
 
 // LookupBookmark ...

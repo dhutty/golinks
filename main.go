@@ -67,17 +67,7 @@ func QueryHandler() http.Handler {
 				}
 			} else if bookmark, ok := LookupBookmark(cmd); ok {
 				q := strings.Join(args, " ")
-				err := bookmark.Exec(w, r, q)
-				if err != nil {
-					http.Error(
-						w,
-						fmt.Sprintf(
-							"Error processing bookmark %s: %s",
-							bookmark.Name(), err,
-						),
-						http.StatusInternalServerError,
-					)
-				}
+				bookmark.Exec(w, r, q)
 			} else {
 				http.Error(
 					w,
