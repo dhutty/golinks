@@ -9,17 +9,17 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestZeroAlias(t *testing.T) {
+func TestZeroBookmark(t *testing.T) {
 	assert := assert.New(t)
 
-	alias := Alias{}
-	assert.Equal(alias.Name(), "")
-	assert.Equal(alias.URL(), "")
+	bookmark := Bookmark{}
+	assert.Equal(bookmark.Name(), "")
+	assert.Equal(bookmark.URL(), "")
 
 	r, _ := http.NewRequest("GET", "", nil)
 	w := httptest.NewRecorder()
 
-	err := alias.Exec(w, r, "")
+	err := bookmark.Exec(w, r, "")
 	assert.Nil(err)
 	assert.Condition(func() bool {
 		return w.Code >= http.StatusMultipleChoices &&
@@ -27,18 +27,21 @@ func TestZeroAlias(t *testing.T) {
 	})
 }
 
-func TestAlias(t *testing.T) {
+func TestBookmark(t *testing.T) {
 	assert := assert.New(t)
 
-	alias := Alias{name: "g", url: "https://www.google.com/search?q=%s&btnK"}
-	assert.Equal(alias.Name(), "g")
-	assert.Equal(alias.URL(), "https://www.google.com/search?q=%s&btnK")
+	bookmark := Bookmark{
+		name: "g",
+		url:  "https://www.google.com/search?q=%s&btnK",
+	}
+	assert.Equal(bookmark.Name(), "g")
+	assert.Equal(bookmark.URL(), "https://www.google.com/search?q=%s&btnK")
 
 	r, _ := http.NewRequest("GET", "", nil)
 	w := httptest.NewRecorder()
 
 	q := "foo bar"
-	err := alias.Exec(w, r, q)
+	err := bookmark.Exec(w, r, q)
 	assert.Nil(err)
 	assert.Condition(func() bool {
 		return w.Code >= http.StatusMultipleChoices &&

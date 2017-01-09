@@ -65,15 +65,15 @@ func QueryHandler() http.Handler {
 						http.StatusInternalServerError,
 					)
 				}
-			} else if alias, ok := LookupAlias(cmd); ok {
+			} else if bookmark, ok := LookupBookmark(cmd); ok {
 				q := strings.Join(args, " ")
-				err := alias.Exec(w, r, q)
+				err := bookmark.Exec(w, r, q)
 				if err != nil {
 					http.Error(
 						w,
 						fmt.Sprintf(
-							"Error processing alias %s: %s",
-							alias.Name(), err,
+							"Error processing bookmark %s: %s",
+							bookmark.Name(), err,
 						),
 						http.StatusInternalServerError,
 					)
@@ -127,7 +127,7 @@ func main() {
 
 	templates.Load()
 
-	EnsureDefaultAliases()
+	EnsureDefaultBookmarks()
 
 	http.Handle("/", QueryHandler())
 	http.Handle("/opensearch.xml", OpenSearchHandler())

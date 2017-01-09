@@ -4,21 +4,22 @@ import (
 	"net/http/httptest"
 )
 
-// DefaultAliases ...
-var DefaultAliases map[string]string
+// DefaultBookmarks ...
+var DefaultBookmarks map[string]string
 
 func init() {
-	DefaultAliases = map[string]string{
+	DefaultBookmarks = map[string]string{
 		"g":  "https://www.google.com/search?q=%s&btnK",
 		"gl": "https://www.google.com/search?q=%s&btnI",
 		"gh": "https://github.com/search?q=%s&ref=opensearch",
+		"go": "https://golang.org/search?q=%s",
 	}
 }
 
-// EnsureDefaultAliases ...
-func EnsureDefaultAliases() error {
-	for k, v := range DefaultAliases {
-		if _, ok := LookupAlias(k); !ok {
+// EnsureDefaultBookmarks ...
+func EnsureDefaultBookmarks() error {
+	for k, v := range DefaultBookmarks {
+		if _, ok := LookupBookmark(k); !ok {
 			w := httptest.NewRecorder()
 			args := []string{k, v}
 			add := Add{}

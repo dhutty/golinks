@@ -191,7 +191,7 @@ func (p Add) Exec(w http.ResponseWriter, args []string) error {
 	}
 
 	err := db.Update(func(tx *bolt.Tx) error {
-		b, err := tx.CreateBucketIfNotExists([]byte("aliases"))
+		b, err := tx.CreateBucketIfNotExists([]byte("bookmarks"))
 		if err != nil {
 			log.Printf("create bucket failed: %s", err)
 			return err
