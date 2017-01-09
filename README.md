@@ -42,8 +42,8 @@ $ golinks -bind 127.0.0.1:8000
 
 Set your browser's default golinks engine to http://localhost:8000/?q=%s
 
-Then type `help` in your browser or `g foo bar`.
+Then type `help` to view the main help page, `g foo bar` to perform a [Google](https://google.com) search for "foo bar" or `list` to list all available commands.
 
-## Licnese
+## License
 
 MIT
