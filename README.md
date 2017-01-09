@@ -5,8 +5,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/prologic/golinks)](https://goreportcard.com/report/github.com/prologic/golinks)
 [![Coverage](https://coveralls.io/repos/prologic/golinks/badge.svg)](https://coveralls.io/r/prologic/golinks)
 
-golinks is a smart bookmarks web app designed to make accessing internal and
-external resources easier as well as provide ways to build convenient tools.
+golinks is a web app that allows you to create smart bookmarks, commands and aliases by pointing your web browser's default search engine at a running instance. Similar to bunny1 or yubnub.
 
 ## Installation
 
